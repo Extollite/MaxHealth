@@ -26,12 +26,6 @@ public class MaxHealth extends PluginBase implements Listener{
 
     @Override
     public void onEnable() {
-        double version = this.getConfig().getDouble("version", 0);
-        if(version < 3.0){
-            this.getServer().getLogger().warning("MaxHealth's config file is outdated! Remove old file and Player Files!");
-            this.getLogger().error("MaxHealth will be disabled!");
-            this.getPluginLoader().disablePlugin(this);
-        }
 
         this.saveDefaultConfig();
         multiLevelHealth = this.getConfig().getBoolean("multiLevelHealth", false);
@@ -54,6 +48,15 @@ public class MaxHealth extends PluginBase implements Listener{
             this.getConfig().set("start-health", 20);
             this.getConfig().save();
         }
+
+        double version = this.getConfig().getDouble("version", 0);
+        if(version < 3.0){
+            this.getServer().getLogger().warning("MaxHealth's config file is outdated! Remove old file and Player Files!");
+            this.getLogger().error("MaxHealth will be disabled!");
+            this.getPluginLoader().disablePlugin(this);
+            return;
+        }
+
         List<String> authors = this.getDescription().getAuthors();
         this.getLogger().info(TextFormat.DARK_GREEN + "Plugin by "+authors.get(0));
         this.getServer().getPluginManager().registerEvents(new EventListener(this), this);
