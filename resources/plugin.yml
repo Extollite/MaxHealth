@@ -1,0 +1,13 @@
+name: MaxHealth
+main: pl.extollite.MaxHealth.MaxHealth
+version: "1.2.0"
+api: ["1.0.0"]
+load: POSTWORLD
+authors: ["Extollite"]
+description: Set player's max health
+prefix: "MaxHealth"
+
+permissions:
+  maxhealth.command:
+    description: "Main command permission"
+    default: op
