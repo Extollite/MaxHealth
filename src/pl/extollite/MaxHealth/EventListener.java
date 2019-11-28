@@ -6,8 +6,8 @@ import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.*;
 import cn.nukkit.scheduler.TaskHandler;
 import cn.nukkit.utils.Config;
-import javafx.util.Pair;
 
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -66,7 +66,7 @@ public class EventListener implements Listener {
     public void onTeleport(PlayerTeleportEvent ev) {
         if (plugin.isMultiLevelHealth() && !ev.getFrom().level.getName().equalsIgnoreCase(ev.getTo().level.getName()) && ev.getPlayer().isAlive()) {
             Player player = ev.getPlayer();
-            plugin.players.get(player.getUniqueId()).hpInLevels.replace(ev.getFrom().getLevel().getName(), new Pair<>(player.getMaxHealth(), (int) player.getHealth()));
+            plugin.players.get(player.getUniqueId()).hpInLevels.replace(ev.getFrom().getLevel().getName(), new AbstractMap.SimpleImmutableEntry<>(player.getMaxHealth(), (int) player.getHealth()));
             task1.put(ev.getPlayer().getUniqueId(),
                     plugin.getServer().getScheduler().scheduleDelayedRepeatingTask(plugin, () -> {
                         if (ev.getPlayer().getLevel().getName().equalsIgnoreCase(ev.getTo().getLevel().getName())) {
@@ -83,7 +83,7 @@ public class EventListener implements Listener {
     public void onDeath(PlayerDeathEvent ev) {
         if (plugin.isMultiLevelHealth() && !ev.getEntity().getSpawn().getLevel().getName().equalsIgnoreCase(ev.getEntity().getLevel().getName())) {
             Player player = ev.getEntity();
-            plugin.players.get(player.getUniqueId()).hpInLevels.replace(player.getLevel().getName(), new Pair<>(player.getMaxHealth(), player.getMaxHealth()));
+            plugin.players.get(player.getUniqueId()).hpInLevels.replace(player.getLevel().getName(), new AbstractMap.SimpleImmutableEntry<>(player.getMaxHealth(), player.getMaxHealth()));
             task.put(player.getUniqueId(),
                     plugin.getServer().getScheduler().scheduleDelayedRepeatingTask(plugin, () -> {
                         if (player.getLevel().getName().equalsIgnoreCase(player.getSpawn().getLevel().getName()) && player.isOnline() && player.isAlive()) {
